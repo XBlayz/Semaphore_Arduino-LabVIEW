@@ -19,6 +19,7 @@ enum State {
 };
 
 // ---Global variables & constants---
+const String VERSION = "1.0";
 // Traffic light timer
 TickType_t timers[4];
 #define GREEN_T 0
@@ -354,6 +355,8 @@ void TaskSerialComuniaction(void *pvParameters) {
           Serial.println(pdTICKS_TO_MS(timers[BLINKING_T]));
         } else if(input == "state") {
           Serial.print(stateToString(currentState));
+        } else if(input == "version") {
+          Serial.println(VERSION);
         } else {
           Serial.println("Invalid get command");
         }
