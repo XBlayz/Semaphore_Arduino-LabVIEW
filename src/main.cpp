@@ -19,7 +19,7 @@ enum State {
 };
 
 // ---Global variables & constants---
-const String VERSION = "1.0";
+const String VERSION = "1.1";
 // Traffic light timer
 TickType_t timers[4];
 #define GREEN_T 0
@@ -48,8 +48,11 @@ void exitGREEN();
 void exitYELLOW();
 void exitRED();
 void exitERROR_ON();
+// String representation of state
+String stateToString(State state);
 
 // ---Tasks declaration---
+void TaskStartingSequence(void *pvParameters);
 TaskHandle_t xSemaphoreTaskHandle = NULL;
 void TaskSemaphoreOn(void *pvParameters);
 void TaskSerialComuniaction(void *pvParameters);
@@ -76,8 +79,9 @@ void setup() {
   pinMode(YELLOW_LED, OUTPUT);
   pinMode(RED_LED, OUTPUT);
 
-  // Initialize state
-  currentState = entryOFF();
+  // Task starting sequence
+  xTaskCreate(TaskStartingSequence, "StartingSequence", 128, NULL, 3, NULL);
+
   // Initialize timers
   timers[GREEN_T] = pdMS_TO_TICKS(5000);
   timers[YELLOW_T] = pdMS_TO_TICKS(2000);
@@ -255,6 +259,20 @@ String stateToString(State state) {
 }
 
 // ---Task definition---
+void TaskStartingSequence(void *pvParameters) {
+  (void) pvParameters;
+
+  digitalWrite(GREEN_LED, HIGH);
+  vTaskDelay(pdMS_TO_TICKS(150));
+  digitalWrite(YELLOW_LED, HIGH);
+  vTaskDelay(pdMS_TO_TICKS(150));
+  digitalWrite(RED_LED, HIGH);
+  vTaskDelay(pdMS_TO_TICKS(700));
+
+  currentState = entryOFF();
+
+  vTaskDelete(NULL);
+}
 void TaskSemaphoreOn(void *pvParameters) {
   (void) pvParameters;
 
