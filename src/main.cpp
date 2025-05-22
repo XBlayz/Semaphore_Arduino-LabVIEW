@@ -19,7 +19,7 @@ enum State {
 };
 
 // ---Global variables & constants---
-const String VERSION = "1.1";
+const String VERSION = "1.2";
 // Traffic light timer
 TickType_t timers[4];
 #define GREEN_T 0
@@ -341,57 +341,57 @@ void TaskSerialComuniaction(void *pvParameters) {
 
         if (input.startsWith("g ")) {
           timers[GREEN_T] = pdMS_TO_TICKS(input.substring(2).toInt());
-          Serial.println(pdTICKS_TO_MS(timers[GREEN_T]));
+          Serial.println("New GREEN timer: " + pdTICKS_TO_MS(timers[GREEN_T]));
         } else if (input.startsWith("y ")) {
           timers[YELLOW_T] = pdMS_TO_TICKS(input.substring(2).toInt());
-          Serial.println(pdTICKS_TO_MS(timers[YELLOW_T]));
+          Serial.println("New YELLOW timer: " + pdTICKS_TO_MS(timers[YELLOW_T]));
         } else if (input.startsWith("r ")) {
           timers[RED_T] = pdMS_TO_TICKS(input.substring(2).toInt());
-          Serial.println(pdTICKS_TO_MS(timers[RED_T]));
+          Serial.println("New RED timer: " + pdTICKS_TO_MS(timers[RED_T]));
         } else if(input.startsWith("b ")) {
           timers[BLINKING_T] = pdMS_TO_TICKS(input.substring(2).toInt());
-          Serial.println(pdTICKS_TO_MS(timers[BLINKING_T]));
+          Serial.println("New ERROR timer: " + pdTICKS_TO_MS(timers[BLINKING_T]));
         } else if(input == "error") {
           if(updateState(State::ERROR_ON)) {
-            Serial.println(stateToString(currentState));
+            Serial.println("New state: " + stateToString(currentState));
           } else {
             Serial.println("FAIL");
           }
         } else {
-          Serial.println("Invalid set command");
+          Serial.println("Invalid set command: " + input);
         }
       } else if (input.startsWith("get_")) {
         input = input.substring(4);
 
         if (input.startsWith("g")) {
-          Serial.println(pdTICKS_TO_MS(timers[GREEN_T]));
+          Serial.println("GREEN timer: " + pdTICKS_TO_MS(timers[GREEN_T]));
         } else if (input.startsWith("y")) {
-          Serial.println(pdTICKS_TO_MS(timers[YELLOW_T]));
+          Serial.println("YELLOW timer: " + pdTICKS_TO_MS(timers[YELLOW_T]));
         } else if (input.startsWith("r")) {
-          Serial.println(pdTICKS_TO_MS(timers[RED_T]));
+          Serial.println("RED timer: " + pdTICKS_TO_MS(timers[RED_T]));
         } else if(input.startsWith("b")) {
-          Serial.println(pdTICKS_TO_MS(timers[BLINKING_T]));
+          Serial.println("ERROR timer: " + pdTICKS_TO_MS(timers[BLINKING_T]));
         } else if(input == "state") {
-          Serial.print(stateToString(currentState));
+          Serial.print("State: " + stateToString(currentState));
         } else if(input == "version") {
           Serial.println(VERSION);
         } else {
-          Serial.println("Invalid get command");
+          Serial.println("Invalid get command: " + input);
         }
       } else if(input == "turn_on") {
         if(updateState(State::GREEN)) {
-          Serial.println(stateToString(currentState));
+          Serial.println("New state: " + stateToString(currentState));
         } else {
           Serial.println("FAIL");
         }
       } else if(input == "turn_off") {
         if(updateState(State::OFF)) {
-          Serial.println(stateToString(currentState));
+          Serial.println("New state: " + stateToString(currentState));
         } else {
           Serial.println("FAIL");
         }
       } else {
-        Serial.println("Invalid command");
+        Serial.println("Invalid command: " + input);
       }
     }
   }
