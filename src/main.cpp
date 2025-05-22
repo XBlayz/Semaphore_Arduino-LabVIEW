@@ -19,7 +19,7 @@ enum State {
 };
 
 // ---Global variables & constants---
-const String VERSION = "1.2";
+const String VERSION = "1.2.1";
 // Traffic light timer
 TickType_t timers[4];
 #define GREEN_T 0
@@ -341,16 +341,16 @@ void TaskSerialComuniaction(void *pvParameters) {
 
         if (input.startsWith("g ")) {
           timers[GREEN_T] = pdMS_TO_TICKS(input.substring(2).toInt());
-          Serial.println("New GREEN timer: " + pdTICKS_TO_MS(timers[GREEN_T]));
+          Serial.println("New GREEN timer: " + String(pdTICKS_TO_MS(timers[GREEN_T])));
         } else if (input.startsWith("y ")) {
           timers[YELLOW_T] = pdMS_TO_TICKS(input.substring(2).toInt());
-          Serial.println("New YELLOW timer: " + pdTICKS_TO_MS(timers[YELLOW_T]));
+          Serial.println("New YELLOW timer: " + String(pdTICKS_TO_MS(timers[YELLOW_T])));
         } else if (input.startsWith("r ")) {
           timers[RED_T] = pdMS_TO_TICKS(input.substring(2).toInt());
-          Serial.println("New RED timer: " + pdTICKS_TO_MS(timers[RED_T]));
+          Serial.println("New RED timer: " + String(pdTICKS_TO_MS(timers[RED_T])));
         } else if(input.startsWith("b ")) {
           timers[BLINKING_T] = pdMS_TO_TICKS(input.substring(2).toInt());
-          Serial.println("New ERROR timer: " + pdTICKS_TO_MS(timers[BLINKING_T]));
+          Serial.println("New ERROR timer: " + String(pdTICKS_TO_MS(timers[BLINKING_T])));
         } else if(input == "error") {
           if(updateState(State::ERROR_ON)) {
             Serial.println("New state: " + stateToString(currentState));
@@ -364,13 +364,13 @@ void TaskSerialComuniaction(void *pvParameters) {
         input = input.substring(4);
 
         if (input.startsWith("g")) {
-          Serial.println("GREEN timer: " + pdTICKS_TO_MS(timers[GREEN_T]));
+          Serial.println("GREEN timer: " + String(pdTICKS_TO_MS(timers[GREEN_T])));
         } else if (input.startsWith("y")) {
-          Serial.println("YELLOW timer: " + pdTICKS_TO_MS(timers[YELLOW_T]));
+          Serial.println("YELLOW timer: " + String(pdTICKS_TO_MS(timers[YELLOW_T])));
         } else if (input.startsWith("r")) {
-          Serial.println("RED timer: " + pdTICKS_TO_MS(timers[RED_T]));
+          Serial.println("RED timer: " + String(pdTICKS_TO_MS(timers[RED_T])));
         } else if(input.startsWith("b")) {
-          Serial.println("ERROR timer: " + pdTICKS_TO_MS(timers[BLINKING_T]));
+          Serial.println("ERROR timer: " + String(pdTICKS_TO_MS(timers[BLINKING_T])));
         } else if(input == "state") {
           Serial.print("State: " + stateToString(currentState));
         } else if(input == "version") {
